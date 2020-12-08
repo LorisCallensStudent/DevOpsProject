@@ -1,33 +1,44 @@
 import vagrant,os
 #Script voor de windows 10 developer host
 
-computerNaam = input("geef deze host een naam. \n :")
-
-ipAddress = input("geef deze host een IPv4 address. In de vorm van x.x.x.x (x zijn enkel gehele getallen) \n :")
-
-domein = input("geef deze host een domein naam mee (dit is optioneel) \n :")
 
 
+def SetUp():
+    global computerNaam
+    computerNaam = input("geef deze host een naam. \n :")
+
+    global ipAddress
+    ipAddress = input("geef deze host een IPv4 address. In de vorm van x.x.x.x (x zijn enkel gehele getallen) \n :")
+
+    global domein
+    domein = input("geef deze host een domein naam mee (dit is optioneel) \n :")
+
+    #We vragen de userInput op en dit slaan we op in globale variabelen
+    #We werken hier met globale variabelen omdat we dit script remote uitvoeren. Als je een script via "exec()" uitvoerd kan je enkel op deze manier werken
+
+
+    os.chdir("HostOmgeving")
+    #We positioneren ons in de correcte map waar we de host willen aanmaken
+    
+    try:
+        os.mkdir(computerNaam)
+    except FileExistsError:
+        print("De folder ", computerNaam , " werd eerder aangemaakt en is daarom niet opnieuw aangemaakt. \n \n ")
+    #We maken de map aan waarin we de box zullen plaatsten en geven deze map dezelfde naam als de box. Als deze naam als bestaat gooien we een exception!
+
+        
+    os.chdir(computerNaam)
+    
 
 
 
 
 
-
-os.chdir("HostOmgeving")
-#we positioneren ons in de HostOmgeving file
-
-try:
-    os.mkdir(computerNaam)
-except FileExistsError:
-    print("De folder ", computerNaam , " werd eerder aangemaakt en is daarom niet opnieuw aangemaakt. \n \n ")
-#Hier maken we de parent folder aan, in deze omgeving zullen alle host boxen aangemaakt worden. (Deze map kan maar 1 keer aangemaakt worden)
 
 
 def OmgevingAanmaken():
-    os.chdir(computerNaam)
-    v=vagrant.Vagrant()
 
+    v=vagrant.Vagrant()
     v.init("gusztavvargadr/windows-10")
     #naam van de windows developer box
     vagrantInit = "\t config.vm.box = \"gusztavvargadr/windows-10\" \n"
@@ -48,10 +59,10 @@ def OmgevingAanmaken():
 
         setComputerName = "\t config.vm.host_name =\""+computerNaam+"\" \n"
         vagrantFile.write(setComputerName)
-         #Stelt de hostname van de computer is
+         #Stelt de hostname van de computer in
 
-         vagrantFile.write('  config.vm.provision "shell", path: "../Provisionscipts/win_10_developer.sh"\n')
-         #Hier moet er nog een provision script aan gekoppeld worden!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        vagrantFile.write('config.vm.provision "shell", path: "../Provisionscipts/win_10_developer.sh" \n')
+         
      
 
          #hoe stel ik het domein van de pc in????????????????????????????????????????????????????????????????????????????????????????
@@ -72,11 +83,14 @@ def OmgevingAanmaken():
 
     #v.up()
 
+        
+def VoegToeAanFile():
+    with open("..\Hostfile.txt", "a") as file:
+                file.write("\n Computernaam:"+str(computerNaam+" IP:"+ipAddress+" OS:Windows Boxnaam:"+computerNaam))
+    #We voegen als laatste de aangemaakte box toe aan het host bestand (txt)
 
-def VoegToeAanHostFile():
-    
-    with open("../HostOmgeving/Hostfile.txt", "a") as file:
-            file.write("\n Computernaam:"+str(computerNaam+" IP:"+ipAddress+" OS:windows10 Boxnaam:"+computerNaam))
 
-VoegToeAanHostFile()
 
+SetUp()
+OmgevingAanmaken()
+VoegToeAanFile()

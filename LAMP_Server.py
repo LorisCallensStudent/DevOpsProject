@@ -1,5 +1,5 @@
 import vagrant,os
-#Script voor de windows server met DHCP, AD & DNS
+#Script voor de linux LAMP server host
 
 
 
@@ -39,9 +39,9 @@ def SetUp():
 def OmgevingAanmaken():
 
     v=vagrant.Vagrant()
-    v.init("jacqinthebox/windowsserver2016core")
+    v.init("AntonioD/centos7-server")
     #naam van de windows developer box
-    vagrantInit = "\t config.vm.box = \"jacqinthebox/windowsserver2016core\" \n"
+    vagrantInit = "\t config.vm.box = \"AntonioD/centos7-server\" \n"
     #naam van de windows box!
 
 
@@ -59,10 +59,10 @@ def OmgevingAanmaken():
 
         setComputerName = "\t config.vm.host_name =\""+computerNaam+"\" \n"
         vagrantFile.write(setComputerName)
-         #Stelt de hostname van de computer in
+         #Stelt de hostname van de computer is
 
-        vagrantFile.write('config.vm.provision "shell", path: "../Provisionscipts/winServer_DHCP_DNS_AD.sh" \n')
-         
+        vagrantFile.write('config.vm.provision "shell", path: "../Provisionscipts/LAMP_Server.sh" \n')
+         #Hier moet er nog een provision script aan gekoppeld worden!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      
 
          #hoe stel ik het domein van de pc in????????????????????????????????????????????????????????????????????????????????????????
@@ -86,7 +86,7 @@ def OmgevingAanmaken():
         
 def VoegToeAanFile():
     with open("..\Hostfile.txt", "a") as file:
-                file.write("\n Computernaam:"+str(computerNaam+" IP:"+ipAddress+" OS:Windows Boxnaam:"+computerNaam))
+                file.write("\n Computernaam:"+str(computerNaam+" IP:"+ipAddress+" OS:Linux Boxnaam:"+computerNaam))
     #We voegen als laatste de aangemaakte box toe aan het host bestand (txt)
 
 

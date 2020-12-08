@@ -4,7 +4,6 @@ import vagrant,os
 
 
 
-
 class WrongInput(Exception):
     pass
 #We schrijven onze eigen exception
@@ -66,7 +65,7 @@ def runProgramma():
         if subkeuze == 1:
             #voer een extern script uit voor het opstellen van de developer box
             try:
-                stream = open("test.py") #SCRIPT
+                stream = open("Ubuntu_Developer.py") #SCRIPT
                 script = stream.read()
                 exec(script)
             except NameError:
@@ -75,7 +74,7 @@ def runProgramma():
         elif subkeuze == 2:
             #voer een extern script uit voor het opstellen van een network engineer box
             try:
-                stream = open("test.py") #SCRIPT
+                stream = open("Ubuntu_Engineer") #SCRIPT
                 script = stream.read()
                 exec(script)
             except NameError:
@@ -94,14 +93,13 @@ def runProgramma():
 
         subkeuze = int(input("Geef weer uw keuze op in NUMMER vorm (1, 2 of 3) "))
         if subkeuze == 1:
-            #voer een extern script uit voor het opstellen van de DHCP only box
-           try:
-                stream = open("Win_10_Server_DHCP.py")# SCRIPT
+            #voer een extern script uit voor het opstellen van een network engineer box
+            try:
+                stream = open("Win_10_Server_DHCP.py") #SCRIPT
                 script = stream.read()
                 exec(script)
             except NameError:
                 print("de nodige file ontbreekt")
-
          
         elif subkeuze == 2:
             #voer een extern script uit voor het opstellen van een AD + DNS only box
@@ -140,22 +138,20 @@ def runProgramma():
 
     elif keuze == 5:  #-------------------------------------------------------------------------------------------Keuze 5
         #voer een extern script uit dat een webserver met LAMP installatie aanmaakt
-            try:
-                stream = open("test.py") #SCRIPT
-                script = stream.read()
-                exec(script)
-            except NameError:
-                print("de nodige file ontbreekt")
-                
+        
+        stream = open("LAMP_Server.py") #SCRIPT
+        script = stream.read()
+        exec(script)
+      
 
     elif keuze == 6:  #-------------------------------------------------------------------------------------------Keuze 6
         #voer een extern script uit dat de volledige configuratie opsteld
-            try:
-                stream = open("test.py") #SCRIPT
-                script = stream.read()
-                exec(script)
-            except NameError:
-                print("de nodige file ontbreekt")
+        try:
+            stream = open("test.py") #SCRIPT
+            script = stream.read()
+            exec(script)
+        except NameError:
+            print("de nodige file ontbreekt")
 
 
                 
