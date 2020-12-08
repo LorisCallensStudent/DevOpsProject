@@ -1,5 +1,9 @@
 Wat staat er hier nu al allemaal in?
 
+- Het script voor de ubuntu developer host
+
+- Het script voor de ubuntu engineer host
+
 - Het script voor de windows developer host
 
 - Het script voor de windows engineer host
