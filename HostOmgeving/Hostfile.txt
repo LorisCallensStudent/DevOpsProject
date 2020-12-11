@@ -1,9 +1,0 @@
-
- Computernaam:win IP:192.168.1.1 OS:windows10 Boxnaam:win
- Computernaam:win20 IP:192.1.1.1 OS:windows10 Boxnaam:win20
-
- Computernaam:test1 IP:1.1.1.1 OS:Linux Boxnaam:test1
- Computernaam:tset5 IP:1.1.1.1 OS:Linux Boxnaam:tset5
- Computernaam:test6 IP:1.1.1.1 OS:Linux Boxnaam:test6
- Computernaam:y IP:t OS:Linux Boxnaam:y
- Computernaam:zen IP: OS:Linux Boxnaam:zen
