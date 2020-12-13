@@ -1,4 +1,4 @@
-import vagrant,os, shutil
+import vagrant,os, shutil, wmi
 
 
 
@@ -16,7 +16,7 @@ class WrongInput(Exception):
 
 #Dit is de classe die het programma zal runnen. Deze classe zal gebruik maken van objecten van de classe vagrantBox en zal hier instanties van gaan aanmaken.---------------Class runProgram
 class runProgram:
-    def __init__(self):
+    def reset(self):
         try:
             shutil.rmtree("HostOmgeving")
             os.mkdir("HostOmgeving")
@@ -24,6 +24,8 @@ class runProgram:
             print("De folder \"HostOmgeving\" werd eerder aangemaakt en is daarom niet opnieuw aangemaakt. \n \n ")
             #Hier maken we de parent folder aan, in deze omgeving zullen alle host boxen aangemaakt worden. (Deze map kan maar 1 keer aangemaakt worden)
             
+
+    
 
     
     def run(self):
@@ -49,7 +51,12 @@ class runProgram:
             if subkeuze == 1:
                 #voer een extern script uit voor het opstellen van de developer box
                 try:
-                    vb = vagrantBox("","","","gusztavvargadr/windows-10","windows","../Provisionscipts/win_10_developer.sh",False)
+                    naam = input("geef deze host een naam. \n :")
+                    ip = input("geef deze host een IPv4 address. In de vorm van x.x.x.x (x zijn enkel gehele getallen) \n :")
+                    domein = input("geef deze host een domein naam mee (dit is optioneel) \n :")
+                    #Opvragen van de nodige gegevens aan de gebruiker
+                    
+                    vb = vagrantBox(naam,domein,ip,"gusztavvargadr/windows-10","windows","../Provisionscipts/win_10_developer.sh",False)
                     vb.SetUp()
                     vb.OmgevingAanmaken()
                     vb.VoegToeAanFile()
@@ -60,7 +67,12 @@ class runProgram:
             elif subkeuze == 2:
                 #voer een extern script uit voor het opstellen van een network engineer box
                 try:
-                   vb = vagrantBox("","","","gusztavvargadr/windows-10","windows","../Provisionscipts/win_10_engineer.sh",False)
+                   naam = input("geef deze host een naam. \n :")
+                   ip = input("geef deze host een IPv4 address. In de vorm van x.x.x.x (x zijn enkel gehele getallen) \n :")
+                   domein = input("geef deze host een domein naam mee (dit is optioneel) \n :")
+                   #Opvragen van de nodige gegevens aan de gebruiker
+                    
+                   vb = vagrantBox(naam,domein,ip,"gusztavvargadr/windows-10","windows","../Provisionscipts/win_10_engineer.sh",False)
                    vb.SetUp()
                    vb.OmgevingAanmaken()
                    vb.VoegToeAanFile()
@@ -83,7 +95,12 @@ class runProgram:
             if subkeuze == 1:
                 #voer een extern script uit voor het opstellen van de developer box
                 try:
-                    vb = vagrantBox("","","","bento/ubuntu-16.04","linux","../Provisionscipts/ubuntu_developer.sh",False)
+                    naam = input("geef deze host een naam. \n :")
+                    ip = input("geef deze host een IPv4 address. In de vorm van x.x.x.x (x zijn enkel gehele getallen) \n :")
+                    domein = input("geef deze host een domein naam mee (dit is optioneel) \n :")
+                    #Opvragen van de nodige gegevens aan de gebruiker
+                    
+                    vb = vagrantBox(naam,domein,ip,"bento/ubuntu-16.04","linux","../Provisionscipts/ubuntu_developer.sh",False)                
                     vb.SetUp()
                     vb.OmgevingAanmaken()
                     vb.VoegToeAanFile()
@@ -93,13 +110,17 @@ class runProgram:
             elif subkeuze == 2:
                 #voer een extern script uit voor het opstellen van een network engineer box
                 try:
-                    vb = vagrantBox("","","","bento/ubuntu-16.04","linux","../Provisionscipts/ubuntu_engineer.sh",False)
+                    naam = input("geef deze host een naam. \n :")
+                    ip = input("geef deze host een IPv4 address. In de vorm van x.x.x.x (x zijn enkel gehele getallen) \n :")
+                    domein = input("geef deze host een domein naam mee (dit is optioneel) \n :")
+                    #Opvragen van de nodige gegevens aan de gebruiker
+                    
+                    vb = vagrantBox(naam,domein,ip,"bento/ubuntu-16.04","linux","../Provisionscipts/ubuntu_engineer.sh",False)
                     vb.SetUp()
                     vb.OmgevingAanmaken()
                     vb.VoegToeAanFile()
                 except:
                     raise WrongInput()
-
                 
             else:
                 #print("uw keuze is niet valid. Run het programma opnieuw als u het nog eens wil proberen")
@@ -115,7 +136,12 @@ class runProgram:
             if subkeuze == 1:
                 #voer een extern script uit voor het opstellen van een network engineer box
                 try:
-                    vb = vagrantBox("","","","jacqinthebox/windowsserver2016core","windowsserver","../Provisionscipts/winServer_DHCP.sh",False)
+                    naam = input("geef deze host een naam. \n :")
+                    ip = input("geef deze host een IPv4 address. In de vorm van x.x.x.x (x zijn enkel gehele getallen) \n :")
+                    domein = input("geef deze host een domein naam mee (dit is optioneel) \n :")
+                    #Opvragen van de nodige gegevens aan de gebruiker
+                    
+                    vb = vagrantBox(naam,domein,ip,"jacqinthebox/windowsserver2016core","windows","../Provisionscipts/winServer_DHCP.sh",False)
                     vb.SetUp()
                     vb.OmgevingAanmaken()
                     vb.VoegToeAanFile()
@@ -125,7 +151,12 @@ class runProgram:
             elif subkeuze == 2:
                 #voer een extern script uit voor het opstellen van een AD + DNS only box
                 try:
-                    vb = vagrantBox("","","","jacqinthebox/windowsserver2016core","windowsserver","../Provisionscipts/winServer_AD_DNS.sh",False)
+                    naam = input("geef deze host een naam. \n :")
+                    ip = input("geef deze host een IPv4 address. In de vorm van x.x.x.x (x zijn enkel gehele getallen) \n :")
+                    domein = input("geef deze host een domein naam mee (dit is optioneel) \n :")
+                    #Opvragen van de nodige gegevens aan de gebruiker
+                    
+                    vb = vagrantBox(naam,domein,ip,"jacqinthebox/windowsserver2016core","windows","../Provisionscipts/winServer_AD_DNS.sh",False)
                     vb.SetUp()
                     vb.OmgevingAanmaken()
                     vb.VoegToeAanFile()
@@ -136,7 +167,12 @@ class runProgram:
             elif subkeuze == 3:
                 #voer een extern script uit voor het opstellen van server met AD + DHCP + DNS box
                 try:
-                    vb = vagrantBox("","","","jacqinthebox/windowsserver2016core","windowsserver","../Provisionscipts/winServer_DHCP_DNS_AD.sh",False)
+                    naam = input("geef deze host een naam. \n :")
+                    ip = input("geef deze host een IPv4 address. In de vorm van x.x.x.x (x zijn enkel gehele getallen) \n :")
+                    domein = input("geef deze host een domein naam mee (dit is optioneel) \n :")
+                    #Opvragen van de nodige gegevens aan de gebruiker
+                    
+                    vb = vagrantBox(naam,domein,ip,"jacqinthebox/windowsserver2016core","windows","../Provisionscipts/winServer_DHCP_DNS_AD.sh",False)
                     vb.SetUp()
                     vb.OmgevingAanmaken()
                     vb.VoegToeAanFile()
@@ -151,7 +187,12 @@ class runProgram:
         elif keuze == 4:  #-------------------------------------------------------------------------------------------Keuze 4
             #voer een extern script uit dat een vyos router aanmaakt?????
                 try:
-                    vb = vagrantBox("","","","higebu/vyos","linux router","../Provisionscipts/vyos.sh",False)
+                    naam = input("geef deze host een naam. \n :")
+                    ip = input("geef deze host een IPv4 address. In de vorm van x.x.x.x (x zijn enkel gehele getallen) \n :")
+                    domein = input("geef deze host een domein naam mee (dit is optioneel) \n :")
+                    #Opvragen van de nodige gegevens aan de gebruiker
+                    
+                    vb = vagrantBox(naam,domein,ip,"higebu/vyos","linux","../Provisionscipts/vyos.sh",False)
                     vb.SetUp()
                     vb.OmgevingAanmaken()
                     vb.VoegToeAanFile()
@@ -162,8 +203,13 @@ class runProgram:
 
         elif keuze == 5:  #-------------------------------------------------------------------------------------------Keuze 5
             #voer een extern script uit dat een webserver met LAMP installatie aanmaakt
-        
-              vb = vagrantBox("","","","AntonioD/centos7-server","linuxServer","../Provisionscipts/LAMP_Server.sh",True)
+
+              naam = input("geef deze host een naam. \n :")
+              ip = input("geef deze host een IPv4 address. In de vorm van x.x.x.x (x zijn enkel gehele getallen) \n :")
+              domein = input("geef deze host een domein naam mee (dit is optioneel) \n :")
+              #Opvragen van de nodige gegevens aan de gebruiker
+
+              vb = vagrantBox(naam,domein,ip,"AntonioD/centos7-server","linux","../Provisionscipts/LAMP_Server.sh",True)
               vb.SetUp()
               vb.OmgevingAanmaken()
               vb.VoegToeAanFile()
@@ -181,14 +227,84 @@ class runProgram:
 
                 
         elif keuze == 7:  #-------------------------------------------------------------------------------------------Keuze 7
-            #Print alle hosts?????????
+            myDic = {}
+            #Aanmaken dictionary (hierin zullen we alle hosts uit de hostfile.txt in gaan opslaan als vagrantBox objecten met de naam van deze objecten als key)
+            try:
+               
+                with open("HostOmgeving/Hostfile.txt", "r") as file:
+                    print("Dit zijn de namen van alle runnende hosts: \n")
+                    
+                    for line in file:
+
+                        x = line.split(" ")
+                        item = vagrantBox(x[0].split(":")[1],x[4].split(":")[1],x[1].split(":")[1],"",x[2].split(":")[1],"",x[6].split(":")[1])
+                        #We maken van elk item in de host file een "vagrantBox" object (dit doen we zodat we straks makkelijker de gegevens kunnen opvragen)
+
+                        key = x[0].split(":")[1]
+                        #we gaan de naam van de host gebruiken als key in onze dictionary 
+                        
+                        myDic[key] = item
+                        #We steken het aangemaakte object in een lijst.
+                        
+                        
+                for key in myDic:
+                    print(key)
+                        #print de namen van alle hosts die in de hostfile staan
+                        
+            except NameError:
+                print("de nodige file ontbreekt")
+
+                
     
             host = input("Van welke host wenst u de details te zien? (geef de exacte naam op!)")
-   
+            for box in myDic:
+                if(box == host):
+                    item = myDic[box]
+                    if(item.OS == "windows"):
+                    #als we vaststellen dat we de gevraagde box gevonden hebben gaan we de waarde van de key gaan koppelen aan een item.
+                    #Dus in item zal een vagrantBox object zitten
+                        while True:
+                            try:
+                                comm = wmi.WMI(item.ipAddress, user=["vagrant"], password=["vagrant"])
+                            except wmi.x_wmi:
+                                continue
+                            else:
+                                break
+                    elif(item.OS == "linux"):
+                        
 
 
         elif keuze == 8:  #-------------------------------------------------------------------------------------------Keuze 8
-            #Print alle hosts??????
+          myDic = {}
+            #Aanmaken dictionary
+            #(hierin zullen we alle hosts uit de hostfile.txt in gaan opslaan als vagrantBox objecten met de naam van deze objecten als key)
+            try:
+               
+                with open("HostOmgeving/Hostfile.txt", "r") as file:
+                    print("Dit zijn de namen van alle runnende hosts: \n")
+                    
+                    for line in file:
+
+                        x = line.split(" ")
+                        item = vagrantBox(x[0].split(":")[1],x[4].split(":")[1],x[1].split(":")[1],"",x[2].split(":")[1],"",x[6].split(":")[1])
+                        #We maken van elk item in de host file een "vagrantBox" object
+                        #(dit doen we zodat we straks makkelijker de gegevens kunnen opvragen)
+
+                        key = x[0].split(":")[1]
+                        #we gaan de naam van de host gebruiken als key in onze dictionary 
+                        
+                        myDic[key] = item
+                        #We steken het aangemaakte object in een lijst.
+                        
+                        
+                for key in myDic:
+                    print(key)
+                        #print de namen van alle hosts die in de hostfile staan
+                        
+            except NameError:
+                print("de nodige file ontbreekt")
+
+                
 
             host = input("welke host wenst u te verwijderen? (geef de exacte naam op!)")
 
@@ -198,14 +314,16 @@ class runProgram:
         else:
             #print("uw keuze is niet valid. Run het programma opnieuw als u het nog eens wil proberen")
             raise WrongInput()
+        
+
 
 
 #Deze classe zal gebruikt worden om vagrant boxen aan te maken!-----------------------------------------------------------------------------------------------------------Class vagrantBOX
 class vagrantBox:
     def __init__(self, computerNaam,domein,ipAddress,cloudBox,OS,provisionScript,portForwarding):
-        self.computerNaam =  input("geef deze host een naam. \n :")
-        self.domein = input("geef deze host een domein naam mee (dit is optioneel) \n :")
-        self.ipAddress = input("geef deze host een IPv4 address. In de vorm van x.x.x.x (x zijn enkel gehele getallen) \n :")
+        self.computerNaam = computerNaam 
+        self.domein = domein
+        self.ipAddress = ipAddress
         self.cloudBox = cloudBox
         self.OS = OS
         self.provisionScript = provisionScript
@@ -280,17 +398,32 @@ class vagrantBox:
         
     def VoegToeAanFile(self):
         with open("..\Hostfile.txt", "a") as file:
-                    file.write("\n Computernaam:"+str(self.computerNaam+" IP:"+self.ipAddress+" OS:"+self.OS+" Boxnaam:"+self.computerNaam))
+                    file.write("Computernaam:"+str(self.computerNaam+" IP:"+self.ipAddress+" OS:"+self.OS+" Boxnaam:"+self.computerNaam+ " domein:"+self.domein+
+                                                   " cloudBoxNaam:"+self.cloudBox+" portforwarding:"+(str(self.portForwarding))+"\n"))
         #We voegen als laatste de aangemaakte box toe aan het host bestand (txt)
 
+        os.chdir("..")
+        os.chdir("..")
+        #we positioneren ons terug in de main folder (zelfde folder waar het main.py script staat)
+        #we doen dit zodat alles "klaarstaat" voor als we de code opnieuw willen uitvoeren
+        #print(os.getcwd()) zou tonen dat me terug in de main folder staan
 
 
 
 
+#---------------------Het programma begint hier en zal beginnen met de code 1 maal uit te voeren------------------------------------------------------------------------------------------
 try:
     rp = runProgram()
+    rp.reset()
     rp.run()
-    
+
+ #Onderstaande 4 lijnen zullen vragen of het programma nogmaals uitgevoerd moet worden   
+    output = input("rerun program? (1 => YES 2=> NO)")
+    while output == "1":
+
+        rp.run()
+        output = input("rerun program? (1 => YES 2=> NO)")
+        
 except WrongInput:
     print("Je hebt de verkeerde input in gegeven, je kan enkel een nummer ingeven dit gekoppeld is aan een mogelijke  else")
     herstarten = int(input("wilt u het programma herstarten? \n 1) JA \n 2) NEE \n"))

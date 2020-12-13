@@ -23,3 +23,12 @@ PROBLEEM: elke keer als ik deze afsluit reset deze (probleem voor vagrant login)
 
 => Optie 7 en 8 zullen werken via remote wmi (zie toledo hiervoor)
 	Niels heeft zelf gezegd dat wij niet met wmi kunnen werken omdat we de juiste zaken niet ingesteld hebben op onze vm's dus hoe testen?????
+
+
+
+
+OPMERKINGEN:
+
+=> voor optie 7 en optie 8 heb ik de code al geschreven die ervoor zorgt dat alle hosts getoond worden.
+=> wat echter nog ontbreekt is de code om te connecteren met een LINUX machine
+=> en het effectief opvragen van de systeem informatie zelf.
