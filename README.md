@@ -22,7 +22,7 @@ PROBLEEM: elke keer als ik deze afsluit reset deze (probleem voor vagrant login)
 => Dit zorgt er ook voor dat veel nog niet is kunnen gestest worden.
 
 => Optie 7 en 8 zullen werken via remote wmi (zie toledo hiervoor)
-	Niels heeft zelf gezegd dat wij niet met wmi kunnen werken omdat we de juiste zaken niet ingesteld hebben op onze vm's dus hoe testen?????
+	meneer Deryckere heeft zelf gezegd dat wij niet met wmi kunnen werken omdat we de juiste zaken niet ingesteld hebben op onze vm's dus hoe testen?????
 
 
 
