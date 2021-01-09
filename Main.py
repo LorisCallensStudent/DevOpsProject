@@ -1,4 +1,5 @@
 import vagrant,os, shutil, wmi
+from netmiko import ConnectHandler
 
 
 
@@ -266,12 +267,51 @@ class runProgram:
                         while True:
                             try:
                                 comm = wmi.WMI(item.ipAddress, user=["vagrant"], password=["vagrant"])
+
+                                for x in comm.win32_computersystem():print(x.name)
+                                print("\n -----")
+
+                                for x in comm.Win32_Computersystem(): print('Total memory: ' +str(round(int(x.TotalPhysicalMemory)/(1024*1024*1024),2))+' GB')
+                                for x in comm.win32_operatingsystem(): print ('Free memory: '+str(round(int(x.freephysicalmemory)/(1024*1024),2)) +' GB')
+
+                                
+                                
                             except wmi.x_wmi:
                                 continue
                             else:
                                 break
                     elif(item.OS == "linux"):
-                        
+                        try:
+                            linux = {
+                                'device_type': 'linux',
+                                'ip': item.ipAddress,
+                                'username': 'vagrant',
+                                'password': 'vagrant'
+                                }
+                            try:
+                                net_connect = ConnectHandler(**linux)
+                                computername = 'hostname'
+                                hddinfo = 'df'    
+                                ramused= 'free'
+                                cpuinfo= 'lscpu'
+                                processen= 'top -b -n 1 | head -n 3'
+
+                               output  = net_connect.send_command(computername)
+                               output2 = net_connect.send_command(computername)
+                               output3 = net_connect.send_command(computername)
+                               output4 = net_connect.send_command(computername)
+                               output5 = net_connect.send_command(computername)
+                               output6 = net_connect.send_command(computername)
+                               
+                               print(output)
+                               print(output1)
+                               print(output2)
+                               print(output3)
+                               print(output4)
+                               print(output5)
+                               print(output6)
+                            except:
+                                print("Er is iets fout gelopen tijdens het versturen van de commando's naar de linux machine.")
 
 
         elif keuze == 8:  #-------------------------------------------------------------------------------------------Keuze 8
