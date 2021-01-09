@@ -416,7 +416,7 @@ class vagrantBox:
             vagrantFile.write(setComputerName)
              #Stelt de hostname van de computer in
 
-            vagrantFile.write("config.vm.provision \"shell\", path: \""+self.provisionScript+"\" \n")
+            vagrantFile.write("config.vm.provision \"shell\", path: \""+self.provisionScript+"\" \n", :args => [self.computernaam, self.domein, self.ipAddress , "Vagrant", "Vagrant"]))
       
 
             vagrantFile.write("\t config.vm.provider \"virtualbox\" do |vb| \n")
