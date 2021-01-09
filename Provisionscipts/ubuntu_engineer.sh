@@ -6,5 +6,5 @@ sudo apt-get update
 sudo apt-get install -y putty
 sudo apt-get install -y tftpd
 sudo apt-get install -y firefox
-# sudo hostnamectl set-hostname ubuntuengineer
+sudo hostnamectl set-hostname ubuntuengineer
 # domein:
