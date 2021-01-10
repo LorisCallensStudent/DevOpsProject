@@ -379,7 +379,7 @@ class runProgram:
             #code om de aangeduide host te verwijderen
 
         elif keuze == 9:#-------------------------------------------------------------------------------------------Keuze 9
-            self.stop()
+            print("bevestig uw keuze om het programma stop te zetten")
         else:
             #print("uw keuze is niet valid. Run het programma opnieuw als u het nog eens wil proberen")
             raise WrongInput()
