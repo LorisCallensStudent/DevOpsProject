@@ -1,5 +1,7 @@
 import vagrant,os, shutil, wmi
+import subprocess
 from netmiko import ConnectHandler
+
 
 
 
@@ -271,11 +273,32 @@ class runProgram:
                                 for x in comm.win32_computersystem():print(x.name)
                                 print("\n -----")
 
-                                for x in comm.Win32_Computersystem(): print('Total memory: ' +str(round(int(x.TotalPhysicalMemory)/(1024*1024*1024),2))+' GB')
+                                for x in comm.Win32_ComputerSystem(): print('Total memory: ' +str(round(int(x.TotalPhysicalMemory)/(1024*1024*1024),2))+' GB')
                                 for x in comm.win32_operatingsystem(): print ('Free memory: '+str(round(int(x.freephysicalmemory)/(1024*1024),2)) +' GB')
-
-                                
-                                
+                                for x in comm.win32_LogicalDisk():
+                                    try:
+                                        size=round(int(x.size)/(1024*1024*1024),2)
+                                        size2=round(int(x.freespace)/(1024*1024*1024),2)
+                                        print('Total diskspace: '+x.caption + ' '+ str(size)+'GB')
+                                        print('Free diskspace: ' +x.caption + ' '+ str(size2)+'GB')
+                                        
+                                    except:
+                                        pass
+                                try:
+                                    subprocess.run(["wmic cpu get loadpercentage"],capture_output=True)
+                                except:
+                                    print("Er ging iets fout met het subprocesscomando")
+##                                for x in comm.Win32_Process():
+##                                    lijst = print("ID: {0}\nHandleCount: {1}\nProcessName: {2}\n".format(process.ProcessId, process.HandleCount, process.name))
+##                                with open(pfile,'w') as file:
+##                                    file.write(lijst)
+##                                    file.close
+##                                with open(pfile,'r') as file:
+##                                    for line in range(3):
+##                                        file.readlines()
+##                                        print(line)
+##                                        file.close()
+                                        
                             except wmi.x_wmi:
                                 continue
                             else:
@@ -296,29 +319,30 @@ class runProgram:
                                 cpuinfo= 'lscpu'
                                 processen= 'top -b -n 1 | head -n 3'
 
-                               output  = net_connect.send_command(computername)
-                               output2 = net_connect.send_command(computername)
-                               output3 = net_connect.send_command(computername)
-                               output4 = net_connect.send_command(computername)
-                               output5 = net_connect.send_command(computername)
-                               output6 = net_connect.send_command(computername)
+                                output  = net_connect.send_command(computername)
+                                output2 = net_connect.send_command(hddinfo)
+                                output3 = net_connect.send_command(ramused)
+                                output4 = net_connect.send_command(cpuinfo)
+                                output5 = net_connect.send_command(processen)
+                              
                                
-                               print(output)
-                               print(output1)
-                               print(output2)
-                               print(output3)
-                               print(output4)
-                               print(output5)
-                               print(output6)
+                                print(output)
+                                print(output1)
+                                print(output2)
+                                print(output3)
+                                print(output4)
+                                print(output5)
                             except:
                                 print("Er is iets fout gelopen tijdens het versturen van de commando's naar de linux machine.")
+                        except:
+                            print("Er trad een foute op bij het aanmaken van de netmiko connectie object")
 
 
         elif keuze == 8:  #-------------------------------------------------------------------------------------------Keuze 8
           myDic = {}
             #Aanmaken dictionary
             #(hierin zullen we alle hosts uit de hostfile.txt in gaan opslaan als vagrantBox objecten met de naam van deze objecten als key)
-            try:
+          try:
                
                 with open("HostOmgeving/Hostfile.txt", "r") as file:
                     print("Dit zijn de namen van alle runnende hosts: \n")
@@ -341,12 +365,12 @@ class runProgram:
                     print(key)
                         #print de namen van alle hosts die in de hostfile staan
                         
-            except NameError:
-                print("de nodige file ontbreekt")
+          except NameError:
+              print("de nodige file ontbreekt")
 
                 
 
-            host = input("welke host wenst u te verwijderen? (geef de exacte naam op!)")
+          host = input("welke host wenst u te verwijderen? (geef de exacte naam op!)")
 
             #code om de aangeduide host te verwijderen
 
