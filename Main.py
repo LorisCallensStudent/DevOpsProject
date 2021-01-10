@@ -1,8 +1,6 @@
-import vagrant, os, shutil, wmi
+import vagrant,os, shutil, wmi
 import subprocess
 from netmiko import ConnectHandler
-
-
 
 
 
@@ -19,13 +17,18 @@ class WrongInput(Exception):
 
 #Dit is de classe die het programma zal runnen. Deze classe zal gebruik maken van objecten van de classe vagrantBox en zal hier instanties van gaan aanmaken.---------------Class runProgram
 class runProgram:
-    def reset(self):
+    def stop(self):
         try:
             shutil.rmtree("HostOmgeving")
-            os.mkdir("HostOmgeving")
-        except FileExistsError:
-            print("De folder \"HostOmgeving\" werd eerder aangemaakt en is daarom niet opnieuw aangemaakt. \n \n ")
+
+        except: print("De folder " + HostOmgeving + " werd eerder aangemaakt en is daarom niet opnieuw aangemaakt. \n \n ")
             #Hier maken we de parent folder aan, in deze omgeving zullen alle host boxen aangemaakt worden. (Deze map kan maar 1 keer aangemaakt worden)
+    def eersteSetup(self):
+        try:
+
+            os.mkdir("HostOmgeving")
+        except: print("De folder " + HostOmgeving + " werd eerder aangemaakt en is daarom niet opnieuw aangemaakt. \n \n ")
+            #Dit zal enkel worden uitgevoerd bij het eerste keer opstarten van het programma
             
 
     
@@ -33,8 +36,8 @@ class runProgram:
     
     def run(self):
 
-        opties = {"1":") Windows 10 host" ,"2":") Linux Ubuntu host" ,"3":") Windows Server" ,"4":") Vyos router" ,"5":") Webserver" ,"6":") Volledige Omgeving" ,"7":") Gegevens Opvragen" ,"8":") Verwijder een box"  }
-        #We gooien alle 8 de opties in een dictionary (op deze manier hebben we geen 8 print statements nodig)
+        opties = {"1":") Windows 10 host" ,"2":") Linux Ubuntu host" ,"3":") Windows Server" ,"4":") Vyos router" ,"5":") Webserver" ,"6":") Volledige Omgeving" ,"7":") Gegevens Opvragen" ,"8":") Verwijder een box","9":")exit"  }
+        #We gooien alle 8 de opties in een dictionary (op deze manier hebben we geen 9 print statements nodig)
 
         print("     W E L K O M")
         for optie in opties:
@@ -59,7 +62,7 @@ class runProgram:
                     domein = input("geef deze host een domein naam mee (dit is optioneel) \n :")
                     #Opvragen van de nodige gegevens aan de gebruiker
                     
-                    vb = vagrantBox(naam,domein,ip,"gusztavvargadr/windows-10","windows","../Provisionscipts/win_10_developer.sh",False)
+                    vb = vagrantBox(naam,domein,ip,"myWindowsBox","windows","../../Provisionscipts/win_10_developer.sh",False)
                     vb.SetUp()
                     vb.OmgevingAanmaken()
                     vb.VoegToeAanFile()
@@ -75,7 +78,7 @@ class runProgram:
                    domein = input("geef deze host een domein naam mee (dit is optioneel) \n :")
                    #Opvragen van de nodige gegevens aan de gebruiker
                     
-                   vb = vagrantBox(naam,domein,ip,"gusztavvargadr/windows-10","windows","../Provisionscipts/win_10_engineer.sh",False)
+                   vb = vagrantBox(naam,domein,ip,"myWindowsBox","windows","../../Provisionscipts/win_10_engineer.sh",False)
                    vb.SetUp()
                    vb.OmgevingAanmaken()
                    vb.VoegToeAanFile()
@@ -103,7 +106,7 @@ class runProgram:
                     domein = input("geef deze host een domein naam mee (dit is optioneel) \n :")
                     #Opvragen van de nodige gegevens aan de gebruiker
                     
-                    vb = vagrantBox(naam,domein,ip,"bento/ubuntu-16.04","linux","../Provisionscipts/ubuntu_developer.sh",False)                
+                    vb = vagrantBox(naam,domein,ip,"myUbuntuBox","linux","../../Provisionscipts/ubuntu_developer.sh",False)                
                     vb.SetUp()
                     vb.OmgevingAanmaken()
                     vb.VoegToeAanFile()
@@ -118,7 +121,7 @@ class runProgram:
                     domein = input("geef deze host een domein naam mee (dit is optioneel) \n :")
                     #Opvragen van de nodige gegevens aan de gebruiker
                     
-                    vb = vagrantBox(naam,domein,ip,"bento/ubuntu-16.04","linux","../Provisionscipts/ubuntu_engineer.sh",False)
+                    vb = vagrantBox(naam,domein,ip,"myUbuntuBox","linux","../Provisionscipts/ubuntu_engineer.sh",False)
                     vb.SetUp()
                     vb.OmgevingAanmaken()
                     vb.VoegToeAanFile()
@@ -144,7 +147,7 @@ class runProgram:
                     domein = input("geef deze host een domein naam mee (dit is optioneel) \n :")
                     #Opvragen van de nodige gegevens aan de gebruiker
                     
-                    vb = vagrantBox(naam,domein,ip,"jacqinthebox/windowsserver2016core","windows","../Provisionscipts/winServer_DHCP.sh",False)
+                    vb = vagrantBox(naam,domein,ip,"jacqinthebox/windowsserver2016core","windows","../../Provisionscipts/winServer_DHCP.sh",False)
                     vb.SetUp()
                     vb.OmgevingAanmaken()
                     vb.VoegToeAanFile()
@@ -159,7 +162,7 @@ class runProgram:
                     domein = input("geef deze host een domein naam mee (dit is optioneel) \n :")
                     #Opvragen van de nodige gegevens aan de gebruiker
                     
-                    vb = vagrantBox(naam,domein,ip,"jacqinthebox/windowsserver2016core","windows","../Provisionscipts/winServer_AD_DNS.sh",False)
+                    vb = vagrantBox(naam,domein,ip,"jacqinthebox/windowsserver2016core","windows","../../Provisionscipts/winServer_AD_DNS.sh",False)
                     vb.SetUp()
                     vb.OmgevingAanmaken()
                     vb.VoegToeAanFile()
@@ -188,14 +191,14 @@ class runProgram:
         
 
         elif keuze == 4:  #-------------------------------------------------------------------------------------------Keuze 4
-            #voer een extern script uit dat een vyos router aanmaakt?????
+            
                 try:
                     naam = input("geef deze host een naam. \n :")
                     ip = input("geef deze host een IPv4 address. In de vorm van x.x.x.x (x zijn enkel gehele getallen) \n :")
                     domein = input("geef deze host een domein naam mee (dit is optioneel) \n :")
                     #Opvragen van de nodige gegevens aan de gebruiker
                     
-                    vb = vagrantBox(naam,domein,ip,"higebu/vyos","linux","../Provisionscipts/vyos.sh",False)
+                    vb = vagrantBox(naam,domein,ip,"myVyosBox","linux","../../Provisionscipts/vyos.sh",False)
                     vb.SetUp()
                     vb.OmgevingAanmaken()
                     vb.VoegToeAanFile()
@@ -212,7 +215,7 @@ class runProgram:
               domein = input("geef deze host een domein naam mee (dit is optioneel) \n :")
               #Opvragen van de nodige gegevens aan de gebruiker
 
-              vb = vagrantBox(naam,domein,ip,"AntonioD/centos7-server","linux","../Provisionscipts/LAMP_Server.sh",True)
+              vb = vagrantBox(naam,domein,ip,"myLinuxServerBaseBox","linux","../../Provisionscipts/LAMP_Server.sh",True)
               vb.SetUp()
               vb.OmgevingAanmaken()
               vb.VoegToeAanFile()
@@ -336,13 +339,14 @@ class runProgram:
                                 print("Er is iets fout gelopen tijdens het versturen van de commando's naar de linux machine.")
                         except:
                             print("Er trad een foute op bij het aanmaken van de netmiko connectie object")
+                        
 
 
         elif keuze == 8:  #-------------------------------------------------------------------------------------------Keuze 8
-          myDic = {}
+            myDic = {}
             #Aanmaken dictionary
             #(hierin zullen we alle hosts uit de hostfile.txt in gaan opslaan als vagrantBox objecten met de naam van deze objecten als key)
-          try:
+            try:
                
                 with open("HostOmgeving/Hostfile.txt", "r") as file:
                     print("Dit zijn de namen van alle runnende hosts: \n")
@@ -365,16 +369,17 @@ class runProgram:
                     print(key)
                         #print de namen van alle hosts die in de hostfile staan
                         
-          except NameError:
-              print("de nodige file ontbreekt")
+            except NameError:
+                print("de nodige file ontbreekt")
 
                 
 
-          host = input("welke host wenst u te verwijderen? (geef de exacte naam op!)")
+            host = input("welke host wenst u te verwijderen? (geef de exacte naam op!)")
 
             #code om de aangeduide host te verwijderen
 
-
+        elif keuze == 9:#-------------------------------------------------------------------------------------------Keuze 9
+            self.stop()
         else:
             #print("uw keuze is niet valid. Run het programma opnieuw als u het nog eens wil proberen")
             raise WrongInput()
@@ -429,14 +434,14 @@ class vagrantBox:
             vagrantFile.write(vagrantInit)
              #begin vagrant file
      
-            networkLine = "\t config.vm.network \"private_network\", ip: \"" +str(self.ipAddress)+"\" \n"
+            networkLine = "\t config.vm.network \"public_network\", ip: \"" +str(self.ipAddress)+"\" \n"
             print(networkLine)
             x = str(networkLine)
             print(x)
             vagrantFile.write(x)
              #Hier voegen we het ip toe aan de vagrant file
 
-            setComputerName = "\t config.vm.host_name =\""+self.computerNaam+"\" \n"
+            setComputerName = "\t config.vm.hostname =\""+self.computerNaam+"\" \n"
             vagrantFile.write(setComputerName)
              #Stelt de hostname van de computer in
 
@@ -478,15 +483,17 @@ class vagrantBox:
 #---------------------Het programma begint hier en zal beginnen met de code 1 maal uit te voeren------------------------------------------------------------------------------------------
 try:
     rp = runProgram()
-    rp.reset()
+    rp.eersteSetup()
     rp.run()
 
  #Onderstaande 4 lijnen zullen vragen of het programma nogmaals uitgevoerd moet worden   
     output = input("rerun program? (1 => YES 2=> NO)")
     while output == "1":
-
+        
         rp.run()
         output = input("rerun program? (1 => YES 2=> NO)")
+    if output == "2":
+        rp.stop()
         
 except WrongInput:
     print("Je hebt de verkeerde input in gegeven, je kan enkel een nummer ingeven dit gekoppeld is aan een mogelijke  else")
@@ -497,6 +504,7 @@ except WrongInput:
         herstart = runProgram()
         herstart.run()
     else:
+        rp.stop()
         print("end")
 
 #We voeren de function 'runProgramma' uit en vangen eventuele fouten/exceptions die gegooid werden op en printen een algemene fout boodschap
